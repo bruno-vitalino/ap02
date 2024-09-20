@@ -4,15 +4,19 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function SubmitNumber() {
-  const [input, setInput] = useState("");
+const Page = () => {
   const router = useRouter();
+  const [input, setInput] = useState("");
+  const [sumValue, setSumValue] = useState<number | null>(null);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    const number = parseFloat(input);
+    if (!isNaN(number)) {
+      setSumValue(number + 2);
+    }
     localStorage.setItem("number", input);
     setInput("");
-    router.push("/rota02"); // Redireciona para a rota /rota02
   };
 
   const handleChange = (e: any) => {
@@ -41,7 +45,14 @@ export default function SubmitNumber() {
             Enviar
           </Button>
         </form>
+        {sumValue !== null && (
+          <div className="mt-4">
+            <p>O número digitado + 2 é igual a {sumValue}</p>
+          </div>
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default Page;
